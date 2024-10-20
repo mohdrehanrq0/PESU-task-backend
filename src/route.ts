@@ -1,11 +1,8 @@
-import Router from "express";
+import Router from 'express';
 
-import userRouter from "./modules/user/router";
-import categoryRouter from "./modules/wa/category/router";
-import contactRouter from "./modules/wa/contact/router";
-import tagRouter from "./modules/wa/tag/router";
-import templateRouter from "./modules/wa/template/router";
-import webhookRouter from "./modules/webhook/router";
+import habitRouter from './modules/habit/router';
+import progressRouter from './modules/progress/router';
+import userRouter from './modules/user/router';
 
 const router = Router();
 
@@ -18,10 +15,7 @@ router.get("/", (_, res) =>
 );
 
 router.use("/user", userRouter);
-router.use("/webhook", webhookRouter);
-router.use("/contact", contactRouter);
-router.use("/tag", tagRouter);
-router.use("/category", categoryRouter);
-router.use("/template", templateRouter);
+router.use("/habits", habitRouter);
+router.use("/progress", progressRouter);
 
 export default router;

@@ -1,69 +1,38 @@
-import { Schema } from "mongoose";
+import mongoose, { Schema } from 'mongoose';
 
-import { UserRole } from "./constant";
-import { IUser } from "./interface";
+import { IUser } from './interface';
 
 const userSchema = new Schema<IUser>(
   {
-    email: { type: String, required: true, trim: true, lowercase: true },
-    name: { type: String, required: true, trim: true },
-    password: { type: String },
-    role: {
+    name: {
       type: String,
       required: true,
-      enum: UserRole,
-      default: "user",
+      trim: true,
     },
-    phone: {
-      code: {
-        type: Number,
-      },
-      number: {
-        type: Number,
-      },
+    email: {
+      type: String,
+      required: true,
+      unique: true,
+      trim: true,
+      lowercase: true,
     },
-    website: String,
-    address: {
-      streetAddress: String,
-      city: String,
-      state: String,
-      zipPostal: String,
+    password: {
+      type: String,
+      required: true,
+      minlength: 6,
     },
-    timezone: String,
-    whatsappAccDetails: {
-      verified: String,
-      display_name: String,
-      display_image: String,
-      about: String,
-      category: String,
-      description: String,
+    reward_points: {
+      type: Number,
+      default: 0,
     },
-    WABA_id: String,
-    phone_number_id: String,
-    auth_code: String,
-    bearer_token: String,
-    bearer_expire: Date,
-    isWhatsappVerified: Boolean,
-    whatsapp_number: Number,
-    activeplan: String,
-    currency: String,
-    credit: String,
-    quota: Number,
-    status: String,
-    fbManagerVerified: String,
-    dailyTemplateLimit: Number,
-    qualityRating: String,
-    tagLimit: Number,
-    attributeLimit: Number,
-    freeTierCoversationCount: Number,
-    wabaActivatedOn: Date,
-    templateTier: String,
-    invoices: Array,
-    planStartOn: Date,
-    currentPlanMonth: Number,
-    wabaAppStatus: {
-      waba_ban_state: String,
-      waba_ban_date: String,
+    reward_badge: {
+      type: String,
+      enum: ["good", "super", "mega", "hyper", null],
+      default: null,
+    },
+    streak: {
+      type: Number,
+      default: 0,
     },
   },
   { timestamps: true }

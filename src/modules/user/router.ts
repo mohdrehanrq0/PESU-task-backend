@@ -1,8 +1,9 @@
 import { Router } from 'express';
 
+import { isAuthenticatedUser } from '../../middleware/auth';
 import validator, { ValidationSource } from '../../middleware/validation';
-import { userGoogleLoginContract, userLoginContract, userRegisterContract } from './contract';
-import { registerUser, userGoogleLogin, userLogin } from './controller';
+import { userLoginContract, userRegisterContract } from './contract';
+import { getUserDetails, registerUser, userLogin, userLogout } from './controller';
 
 const userRouter = Router();
 
@@ -17,12 +18,7 @@ userRouter.post(
   validator(ValidationSource.BODY, userLoginContract),
   userLogin
 );
-
-// TODO: remaing work to do
-userRouter.post(
-  "/google",
-  validator(ValidationSource.BODY, userGoogleLoginContract),
-  userGoogleLogin
-);
+userRouter.get("/logout", isAuthenticatedUser, userLogout);
+userRouter.get("/", isAuthenticatedUser, getUserDetails);
 
 export default userRouter;
