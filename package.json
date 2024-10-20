@@ -1,5 +1,5 @@
 {
-  "name": "totalads-backend",
+  "name": "PESU-backend",
   "version": "1.0.0",
   "main": "./src/index.js",
   "scripts": {
@@ -45,8 +45,9 @@
     "mongoose": "^8.5.3",
     "morgan": "^1.10.0",
     "multer": "^1.4.5-lts.1",
+    "nodemon": "^3.1.7",
+    "PESU-backend": "file:",
     "socket.io": "^4.7.5",
-    "totalads-backend": "file:",
     "ts-node": "^10.9.2"
   }
 }
