@@ -7,7 +7,7 @@ import catchAsyncError from '../../middleware/catchAsyncError';
 import User from '../../model/user';
 import ErrorHandler from '../../utils/errorHandler';
 import { getJWTtoken } from '../../utils/jwt';
-import { comparePassword, hashPassword } from './utils';
+import { comparePassword, cookieConfig, hashPassword } from './utils';
 
 export const registerUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
@@ -51,11 +51,7 @@ export const userLogin = catchAsyncError(
 
     const accessToken = await getJWTtoken(userData._id);
 
-    res.cookie("accessToken", accessToken, {
-      httpOnly: true,
-      secure: false,
-      maxAge: 90 * 24 * 3600 * 1000,
-    });
+    res.cookie("accessToken", accessToken, cookieConfig);
     res.status(statusCode.SUCCESS).json({
       success: true,
       message: "User login successfully.",
@@ -66,11 +62,7 @@ export const userLogin = catchAsyncError(
 
 export const userLogout = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    res.clearCookie("accessToken", {
-      httpOnly: true,
-      secure: false,
-      maxAge: 90 * 24 * 3600 * 1000,
-    });
+    res.clearCookie("accessToken", cookieConfig);
 
     res.status(statusCode.SUCCESS).json({
       success: true,
