@@ -124,7 +124,8 @@ export const completeHabit = catchAsyncError(
     const habitCreationDate = new Date(habit.createdAt);
 
     const totalDays = Math.max(
-      (currentDateUpdated - habitCreationDate) / (1000 * 60 * 60 * 24),
+      (currentDateUpdated.getTime() - habitCreationDate.getTime()) /
+        (1000 * 60 * 60 * 24),
       1
     );
 
@@ -149,26 +150,29 @@ export const completeHabit = catchAsyncError(
     } else {
       user.reward_badge = null;
     }
-    const lastCompletedDate = user.updatedAt;
-    const lastCompletedDateAdjusted = new Date(lastCompletedDate).setHours(
-      0,
-      0,
-      0,
-      0
+    const lastCompletedDate = new Date(user.updatedAt);
+
+    const lastCompletedDateAdjusted = new Date(
+      lastCompletedDate.setHours(0, 0, 0, 0)
     );
+    const currentDateAdjusted = new Date(
+      currentDateUpdated.setHours(0, 0, 0, 0)
+    );
+
     const oneDayInMs = 24 * 60 * 60 * 1000;
     const isConsecutive =
-      lastCompletedDateAdjusted === currentDate - oneDayInMs;
+      currentDateAdjusted.getTime() - lastCompletedDateAdjusted.getTime() ===
+      oneDayInMs;
 
-    user.reward_points += progress.pointsEarned;
-    const userLastUpdated = new Date(user.updatedAt).setHours(0, 0, 0, 0);
-    if (userLastUpdated !== currentDate) {
+    if (lastCompletedDateAdjusted.getTime() !== currentDateAdjusted.getTime()) {
       if (isConsecutive) {
         user.streak += 1;
       } else {
         user.streak = 1;
       }
     }
+
+    user.reward_points += progress.pointsEarned;
 
     await user.save();
 
