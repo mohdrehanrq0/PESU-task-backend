@@ -11,7 +11,7 @@ This Node.js project serves as the backend for the Habit Tracker application, al
 To get started, clone the repository using the following command:
 
 ```bash
-git clone https://github.com/your-repo/habit-tracker-backend.git
+git clone https://github.com/mohdrehanrq0/PESU-task-backend
 ```
 
 ### 2. Add Environment Variables
