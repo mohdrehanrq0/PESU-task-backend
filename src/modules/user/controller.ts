@@ -11,19 +11,19 @@ import { comparePassword, hashPassword } from './utils';
 
 export const registerUser = catchAsyncError(
   async (req: Request, res: Response, next: NextFunction) => {
-    let payload = {
+    let user = new User({
       ...req.body,
       ...(req.body.password
         ? { password: hashPassword(req.body.password) }
         : {}),
-    };
+    });
 
-    let user = await User.create(payload);
+    const savedUser = await user.save();
 
     res.status(statusCode.SUCCESS).json({
       success: true,
       message: "User added successfully.",
-      user,
+      user: savedUser,
     });
   }
 );
